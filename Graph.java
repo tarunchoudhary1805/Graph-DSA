@@ -16,17 +16,36 @@ public class Graph {
         a.get(dest).add(src);
     }
 
-    public static void dfs(int src, boolean[] visit){
+    public static void dfs(int src, boolean[] visit) {
         visit[src] = true;
         System.out.print(src + " ");
 
-        for(Integer neighbour : a.get(src)){
-            if(!visit[neighbour]){
-                dfs(neighbour,visit);
+        for (Integer neighbour : a.get(src)) {
+            if (!visit[neighbour]) {
+                dfs(neighbour, visit);
             }
         }
-    } 
-    public static void main(String [] args){
+    }
+
+    public static void bfs(int src, boolean[] visit) {
+        Queue<Integer> queue = new LinkedList();
+        queue.add(src);
+        visit[src] = true;
+
+        while (!queue.isEmpty()) {
+            int cur = queue.poll();
+            System.out.println(cur + " ");
+            for(Integer neighbor : a.get(cur)){
+                if(!visit[neighbor]){
+                    queue.add(neighbor);
+                    visit[neighbor] = true;
+                }
+            }
+        }
+
+    }
+
+    public static void main(String[] args) {
         int v = 5;
         Graph graph = new Graph(v);
         graph.addEdge(0, 1);
@@ -37,7 +56,8 @@ public class Graph {
         graph.addEdge(3, 4);
         graph.addEdge(1, 4);
 
-        boolean [] visit = new boolean[v];
-        dfs(0,visit);
+        boolean[] visit = new boolean[v];
+        // dfs(0,visit);
+        bfs(0, visit);
     }
 }
